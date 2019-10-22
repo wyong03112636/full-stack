@@ -1,5 +1,5 @@
 import navView from '../views/nav.art'
-
+import httpModel from '../models/http';
 class Users {
   constructor() {
     this.render()
@@ -13,18 +13,19 @@ class Users {
     $('#btn-submit').on('click', this.handleSubmit.bind(this))
   }
 
-  handleSubmit() {
-    let data = $('.form-horizontal').serialize()
-    $.ajax({
-      url: '/api/users/signup',
-      type: 'POST',
-      data,
-      success: this.handleSubmitSucc
-    })
+  async handleSubmit() {
+      let data = $('.form-horizontal').serialize();
+      let result = await httpModel.get({
+        url:'/api/users/signup',
+        type:'POST',
+        data,
+      })
+      this.handleSubmitSucc(result);
+   
   }
 
-  handleSubmitSucc() {
-    console.log(0)
+  handleSubmitSucc(result) {
+    console.log(result)
   }
 }
 
